@@ -1,5 +1,6 @@
 import  { useState } from "react";
 import  NoteContext from "./noteContext";
+import { tab } from "@testing-library/user-event/dist/tab";
 
 const NoteState = (props)=>{
  
@@ -80,10 +81,41 @@ const NoteState = (props)=>{
 
       const [notes, setNotes] = useState(initialNotes);
 
+      // Add a note
+      const addNote= (title, description, tag)=>{
+        // TODO: API Call
+        let note=  {
+          "_id": "66a078405514ec96b3fffe049",
+          "user": "669f3286d61950186e9072c1",
+          "title": title,
+          "description": description,
+          "tag": tag,
+          "__v": 0
+        };
+
+        setNotes(notes.concat(note));
+
+       }
+
+      // Edit a note 
+      const editNote= (id, title, description, tag)=>{
+
+      }
+
+      // Delete a note 
+      const deleteNote= (id)=>{
+
+        // TODO: API Call
+        console.log("delete note id: "+ id);
+
+        const newNote = notes.filter((note)=>{return note._id!==id})
+        setNotes(newNote);
+      }
+
     return(
         // <NoteContext.Provider value= {{state:state, update:update}}>
         // <NoteContext.Provider value= {{}}>
-        <NoteContext.Provider value= {{notes, setNotes}}>
+        <NoteContext.Provider value= {{notes, addNote, editNote, deleteNote}}>
             {props.children}
         </NoteContext.Provider>
     )

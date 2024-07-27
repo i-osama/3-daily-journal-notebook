@@ -14,7 +14,7 @@ function App() {
       <NoteState>
         <BrowserRouter>
           <Navbar />
-          <Alert/>
+          <Alert message="This is an alert dialogue"/>
           <div className="container">
           <Routes>
 
