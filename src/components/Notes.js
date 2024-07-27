@@ -10,7 +10,7 @@ const Notes = () => {
     <h3>Your Journals</h3>
 
     {notes.map((note) => {
-        return <NoteItem note={note}/>;
+        return <NoteItem key={note._id} note={note}/>;
       })}
 
     {/* {notes.map((note, index) => (
