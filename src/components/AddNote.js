@@ -7,7 +7,7 @@ const AddNote = () => {
   const [note, setNote] = useState({title:"", description:"", tag:"default"})
 
   const handleClick = (element)=>{
-    element.preventDefault();
+    element.preventDefault(); // this function prevent the screen from reloading
     addNote(note.title, note.description, note.tag)
     
   }
