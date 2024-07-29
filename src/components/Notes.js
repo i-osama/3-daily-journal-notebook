@@ -35,7 +35,7 @@ const Notes = () => {
     <>
     <AddNote/>
     <div className="row my-3">
-    <h3>Your Journals</h3>
+
 
 <button type="button" ref={modalRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Launch demo modal
@@ -76,7 +76,12 @@ const Notes = () => {
 
 
 {/* ---- */}
-    {notes.map((note) => {
+<h3>Your Journals</h3>
+  <div className="container mx-2">
+    {notes.length===0&&"No Journal to display"}
+    </div>
+
+      {notes.map((note) => {
         return <NoteItem key={note._id} updateNote={updateNote} note={note}/>;
       })}
 
