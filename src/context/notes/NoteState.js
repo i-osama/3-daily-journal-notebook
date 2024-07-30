@@ -1,10 +1,12 @@
 import  { useState } from "react";
 import  NoteContext from "./noteContext";
 import { tab } from "@testing-library/user-event/dist/tab";
+// import { useNavigate } from "react-router-dom";
 
 const NoteState = (props)=>{
     const host = "http://localhost:5000"
     const initialNotes = [];
+    // const useNavigate = useNavigate();
 
       const [notes, setNotes] = useState(initialNotes);
 
@@ -16,12 +18,13 @@ const NoteState = (props)=>{
           
           headers: {
             'Content-Type':'application/json',
-            'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5ZjMyODZkNjE5NTAxODZlOTA3MmMxIn0sImlhdCI6MTcyMTc4OTE1M30.asAlCaImNRjcQ-Varew1GVM3sRDvcnc9bBsqqFJp3AQ'
+            // 'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5ZjMyODZkNjE5NTAxODZlOTA3MmMxIn0sImlhdCI6MTcyMTc4OTE1M30.asAlCaImNRjcQ-Varew1GVM3sRDvcnc9bBsqqFJp3AQ'
+            'auth-token': localStorage.getItem('token')         
           },
          
         });
         const json = await response.json()
-        // console.log(json)
+        console.log(`get all notes function ${json}`)
         setNotes(json);
 
        }
@@ -35,14 +38,18 @@ const NoteState = (props)=>{
           
           headers: {
             'Content-Type':'application/json',
-            'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5ZjMyODZkNjE5NTAxODZlOTA3MmMxIn0sImlhdCI6MTcyMTc4OTE1M30.asAlCaImNRjcQ-Varew1GVM3sRDvcnc9bBsqqFJp3AQ'
+            // 'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5ZjMyODZkNjE5NTAxODZlOTA3MmMxIn0sImlhdCI6MTcyMTc4OTE1M30.asAlCaImNRjcQ-Varew1GVM3sRDvcnc9bBsqqFJp3AQ'
+            'auth-token':localStorage.getItem('token')
           },
           body: JSON.stringify({title, description, tag})
         });
 
         const note= await response.json();
 
-        setNotes(notes.concat(note));
+        // const allNotesCombined = notes.concat(note);
+
+        // setNotes(notes.concat(note));
+        getNotes();
 
        }
 

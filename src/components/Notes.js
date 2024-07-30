@@ -2,17 +2,24 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import noteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom';
 
 const Notes = (props) => {
       
   const [note, setNote] = useState({id:"", etitle:"", edescription:"", etag:"default"})
   const { notes, getNotes, editNote } = useContext(noteContext);
+  let navigate = useNavigate();
   useEffect(()=>{
-    getNotes();
+    if (localStorage.getItem('token')) {
+      getNotes();
+    }else{
+      navigate('/login')
+    }
   },[]);
 
   const updateNote=(currentNote)=>{
     modalRef.current.click();
+    console.log(`current notes: ${currentNote}`)
 
     setNote({id:currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag});
     
@@ -84,8 +91,14 @@ const Notes = (props) => {
     {notes.length===0&&"No Journal to display"}
     </div>
 
-      {notes.map((note) => {
+      {/* {notes.map((note) => {
         return <NoteItem key={note._id} updateNote={updateNote} note={note} showAlert={props.showAlert}/>;
+      })} */}
+
+{Array.isArray(notes) && notes.map((note) => {
+        return (
+          <NoteItem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert}></NoteItem>
+        );
       })}
 
     {/* {notes.map((note, index) => (
