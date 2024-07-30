@@ -3,7 +3,7 @@ import noteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
 
-const Notes = () => {
+const Notes = (props) => {
       
   const [note, setNote] = useState({id:"", etitle:"", edescription:"", etag:"default"})
   const { notes, getNotes, editNote } = useContext(noteContext);
@@ -15,6 +15,7 @@ const Notes = () => {
     modalRef.current.click();
 
     setNote({id:currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag});
+    
   }
   const modalRef = useRef(null)
   const refClose = useRef(null)
@@ -24,6 +25,8 @@ const Notes = () => {
     // element.preventDefault();
     editNote(note.id, note.etitle, note.edescription, note.etag)
     refClose.current.click();
+    
+    props.showAlert("Note Updated successfully", 'success')
   
   }
 
@@ -82,7 +85,7 @@ const Notes = () => {
     </div>
 
       {notes.map((note) => {
-        return <NoteItem key={note._id} updateNote={updateNote} note={note}/>;
+        return <NoteItem key={note._id} updateNote={updateNote} note={note} showAlert={props.showAlert}/>;
       })}
 
     {/* {notes.map((note, index) => (
