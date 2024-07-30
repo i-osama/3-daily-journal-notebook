@@ -4,39 +4,41 @@ import { useNavigate } from 'react-router-dom';
 const Signup = (props) => {
 
 
-  const [credentials, setCredentials] = useState({name:'', email: "", password: "",cpassword:'' })
+  const [credentials, setCredentials] = useState({ name: '', email: "", password: "", cpassword: '' })
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (credentials.password !== credentials.cpassword) {
+      props.showAlert("Password is not matching, please check and confirm the password!", "danger")
+    } else {
+      // const {name,email, password} = credentials;
+      const response = await fetch('http://localhost:5000/api/auth/createuser', {
+        method: 'POST',
 
-    // const {name,email, password} = credentials;
-    const response = await fetch('http://localhost:5000/api/auth/createuser', {
-      method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password })
 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name:credentials.name, email: credentials.email, password: credentials.password })
+      });
 
-    });
+      const json = await response.json();
+      console.log(json)
 
-    const json = await response.json();
-    console.log(json)
+      if (json.success) {
+        //redirect
 
-    if (json.success) {
-      //redirect
-      
-      props.showAlert("Account created successfully", 'success')
-      localStorage.setItem('token', json.authToken);
-      navigate('/');
+        props.showAlert("Account created successfully", 'success')
+        localStorage.setItem('token', json.authToken);
+        navigate('/');
 
+      }
+      else {
+        props.showAlert("Invalid Credentials!!", 'danger')
+        // props.showAlert(json.error, 'danger')
+      }
     }
-    else {
-      props.showAlert("Invalid Credentials!!", 'danger')
-      // props.showAlert(json.error, 'danger')
-    }
-
   }
 
 
@@ -57,11 +59,11 @@ const Signup = (props) => {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" name='password' onChange={onChange} minLength={5} required/>
+          <input type="password" className="form-control" id="password" name='password' onChange={onChange} minLength={5} required />
         </div>
         <div className="mb-3">
           <label htmlFor="cpassword" className="form-label">Confirm Password</label>
-          <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} minLength={5} required/>
+          <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} minLength={5} required />
         </div>
 
         <button type="submit" className="btn btn-primary">Submit</button>
